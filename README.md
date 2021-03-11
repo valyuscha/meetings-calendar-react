@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Calendar of meetings
+This app is created for office work. It creates the schedule of office meetings.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Project start instruction:
+First of all you need to clone this repository on your computer. Then you need to write `npm install` in your 
+terminal. That's all. Now you can write `npm run start` or `npm start` in your terminal and then the website would be
+ opened.
 
-## Available Scripts
+### Instructions for using the web app:
+1. When you load project at first time you can see calendar page with empty table.
+1. You can create new meeting by clicking `New event+` button. Then you will see form which helps to create new event. Notice that you cannot create new meeting which has no name and/or no one participant.
+After you have filled out the form you can click `Create` button and add new meeting. After that you would be redirected to calendar page where you would see your meeting. 
+If you try to add a meeting for the day and time when another meeting is already scheduled, you will see an error message that this time is already taken.
+1. On the calendar page you can see select with the list of users. It helps you to see only those meetings in which the one you chose in the select participates.
+1. You can delete meeting by clicking `x` button in the cell near the planed meeting. You would see the confirm message which asks if you really want to delete the meeting. If you click `yes` 
+the meeting would be deleted. If you click `no` the confirm message would just be hidden without deleting the meeting.
+1. You can see all information about current meeting if you click the cell with the planed meeting. Then you would be redirected to the meeting info page.
+1. You can edit meeting info by clicking the `pencil icon` on the meeting info page. You would be redirected on edit meeting info page. The logic of this page is like the logic of 
+add new meeting page but instead of creating new event you would edit meeting which is created already. If you click `Cancel` button you would go back to meeting info page without 
+editing the meeting. If you click `Edit` button the meeting would be edited and you would come back to meeting info page where you would see edited info.
 
-In the project directory, you can run:
+### Used technologies:
+1. HTML
+1. SCSS
+1. JavaScript
+1. Webpack
+1. Babel 
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Scripts of application launch process
+1. start - use `npm run start` or `npm start` to run the project on `localhost:3000`.
+1. build - use `npm run build` or `npm build` to build the project into production (minified) version.
+1. dev - use `npm run dev` or `npm dev` to build the project into development version.
+1. test - use `npm run test` or `npm test` to run all tests of the project.
