@@ -1,9 +1,11 @@
 import React from 'react'
+import {Switch, Route} from 'react-router-dom'
+import {CalendarPage} from 'pages'
 
 const App = () => (
-  <div>
-    Hello world!
-  </div>
+  <Switch>
+    <Route path="/" component={CalendarPage} />
+  </Switch>
 )
 
 export default App

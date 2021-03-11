@@ -18,6 +18,32 @@
     "react"
   ],
   "rules": {
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "linebreak-style": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "eol-last": 0,
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+    "no-unused-vars": ["error", {"varsIgnorePattern": "^[A-Z]"}],
+    "spaced-comment": 0,
+    "comma-dangle": 0,
+    "object-curly-spacing": 0,
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "react/destructuring-assignment": "off",
+    "react/prop-types": "off",
+    "react/jsx-closing-bracket-location": "off",
+    "no-trailing-spaces": "off",
+    "no-confusing-arrow": "off",
+    "import/no-cycle": "off",
+    "class-methods-use-this": "off",
+    "no-else-return": "off",
+    "arrow-parens": "off",
+    "no-return-await": "off",
+    "array-callback-return": "off",
+    "consistent-return": "off",
+    "no-unused-expressions": "off",
+    "arrow-body-style": "off",
+    "no-nested-ternary": "off",
+    "object-curly-newline": "off"
   }
 }
