@@ -1,6 +1,16 @@
 import styled from 'styled-components'
 
-export const SelectWrapper = styled.div``
+export const SelectWrapper = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 500px;
+  justify-content: space-between;
+
+  &:first-of-type {
+    margin-bottom: 12px;
+  }
+`
 
 export const Label = styled.label`
   font-size: 16px;
@@ -9,6 +19,7 @@ export const Label = styled.label`
   margin-right: 10px;
   display: ${({label}) => label ? 'flex' : 'none'};
   align-items: center;
+  width: 300px;
 `
 
 export const SelectElem = styled.select`

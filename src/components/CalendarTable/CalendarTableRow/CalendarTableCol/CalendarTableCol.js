@@ -6,15 +6,13 @@ import {
   CalendarTableColWrapper
 } from './style'
 
-const CalendarTableCol = ({day, meetings, getAllMeetings}) => (
+const CalendarTableCol = ({day}) => (
   <CalendarTableColWrapper>
     {time.map(item => (
       <CalendarTableCell
-        key={[item, day].join(' ')}
+        key={[item.name, day].join(' ')}
         day={day}
-        time={item}
-        meetings={meetings}
-        getAllMeetings={getAllMeetings} />
+        time={item.name} />
     ))}
   </CalendarTableColWrapper>
 )

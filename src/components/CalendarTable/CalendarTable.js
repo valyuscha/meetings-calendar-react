@@ -3,10 +3,10 @@ import CalendarTableRow from './CalendarTableRow'
 
 import {CalendarTableWrapper} from './style'
 
-const CalendarTable = ({meetings, getAllMeetings}) => (
+const CalendarTable = () => (
   <CalendarTableWrapper>
     <CalendarTableRow firstRow />
-    <CalendarTableRow meetings={meetings} getAllMeetings={getAllMeetings} />
+    <CalendarTableRow />
   </CalendarTableWrapper>
 )
 

@@ -10,6 +10,7 @@ export const Cell = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  cursor: pointer;
 `
 
 export const TimeCell = styled.p` 
@@ -41,6 +42,7 @@ export const DeleteMeetingButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+  display: ${p => p.activeUser && p.activeUser.canUserDeleteMeeting ? 'block' : 'none'};
 `
 
 export const DeleteIcon = styled.img`

@@ -1,0 +1,3 @@
+import CreateEditMeetingErrorMessage from './CreateEditMeetingErrorMessage'
+
+export default CreateEditMeetingErrorMessage

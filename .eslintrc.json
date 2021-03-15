@@ -23,7 +23,6 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "eol-last": 0,
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
-    "no-unused-vars": ["error", {"varsIgnorePattern": "^[A-Z]"}],
     "spaced-comment": 0,
     "comma-dangle": 0,
     "object-curly-spacing": 0,
@@ -44,6 +43,13 @@
     "no-unused-expressions": "off",
     "arrow-body-style": "off",
     "no-nested-ternary": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "no-unused-vars": "off",
+    "react/no-unescaped-entities": "off",
+    "no-multi-spaces": "off",
+    "no-param-reassign": "off",
+    "no-shadow": "off",
+    "no-lonely-if": "off",
+    "react/jsx-one-expression-per-line": "off"
   }
 }

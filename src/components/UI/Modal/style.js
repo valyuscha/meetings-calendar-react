@@ -7,6 +7,8 @@ export const ModalWrapper = styled.div`
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, .4);
+  
+  display: ${({show}) => show ? 'block' : 'none'};
 `
 
 export const ModalElem = styled.div`

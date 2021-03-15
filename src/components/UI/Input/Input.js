@@ -12,11 +12,16 @@ const Input = (props) => (
     <Label>{props.label}</Label>
     <InputWrapper>
       <InputElem
-        type="text"
-        id={props.id}
+        type={props.type}
+        value={props.value}
+        isValid={props.isValid}
+        isTouched={props.isTouched}
         placeholder={props.placeholder}
-      />
-      <ErrorMessage id={props.errorMessageId}>
+        onBlur={props.onBlur}
+        onChange={props.onChange} />
+      <ErrorMessage
+        isValid={props.isValid}
+        isTouched={props.isTouched}>
         {props.errorMessage}
       </ErrorMessage>
     </InputWrapper>

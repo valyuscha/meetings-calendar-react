@@ -1,0 +1,3 @@
+import ConfirmDeleteMeetingModal from './ConfirmDeleteMeetingModal'
+
+export default ConfirmDeleteMeetingModal

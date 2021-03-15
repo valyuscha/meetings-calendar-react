@@ -3,7 +3,7 @@ import CalendarTableCol from './CalendarTableCol'
 
 import {FirstRowCell, CalendarTableRowWrapper} from './style'
 
-const CalendarTableRow = ({firstRow, meetings, getAllMeetings}) => {
+const CalendarTableRow = ({firstRow}) => {
   const tableHeader = ['Name', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri']
 
   return (
@@ -15,9 +15,7 @@ const CalendarTableRow = ({firstRow, meetings, getAllMeetings}) => {
           return (
             <CalendarTableCol
               key={item}
-              day={item}
-              meetings={meetings}
-              getAllMeetings={getAllMeetings} />
+              day={item} />
           )
         }
       })}
