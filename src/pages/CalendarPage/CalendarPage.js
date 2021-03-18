@@ -1,4 +1,5 @@
-import React, {useEffect, useState, createContext} from 'react'
+import React from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import {Ellipsis} from 'react-awesome-spinners'
 import {Button, Select, Loader} from 'components/UI'
@@ -9,7 +10,8 @@ import {
   ConfirmLogoutModal,
   ConfirmDeleteMeetingModal
 } from 'components'
-import { serverEventsMethods } from '../../serverCommunication'
+
+import {setFilteredMeetings, showConfirmLogoutModal} from '../../redux'
 
 import {
   CalendarPageWrapper,
@@ -21,50 +23,34 @@ import {
   AddNewMeetingButtonWrapper
 } from './style'
 
-export const MeetingsList = createContext()
-export const ConfirmDeleteMeetingModalVisibility = createContext()
-export const DeleteMeeting = createContext()
-
-const CalendarPage = (props) => {
+const CalendarPage = () => {
   const activeUser = JSON.parse(localStorage.getItem('activeUser'))
+  const dispatch = useDispatch()
   const history = useHistory()
-  const [isLoggedIn, setIsLoggedIn] = useState(!!activeUser)
-  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false)
-  const [isDeleteMeetingModalVisible, setIsDeleteMeetingModalVisible] = useState(false)
-  const [chosenMeetingForDeleting, setChosenMeetingForDeleting] = useState([])
-  const [isUserDeletingMeeting, setIsUserDeletingMeeting] = useState(false)
-
-  useEffect(() => {
-    let cleanupFunction = false
-
-    if (!cleanupFunction) {
-      props.getAllMeetings()
-    }
-
-    return () => {
-      cleanupFunction = true
-    }
-  }, [])
+  const {isLoading} = useSelector(({loader}) => loader)
+  const {allMeetings} = useSelector(({meetings}) => meetings)
+  const {usersList} = useSelector(({users}) => users)
+  const {isLoggedIn} = useSelector(({auth}) => auth)
 
   const selectUserHandler = (event) => {
     const {value} = event.target
 
     if (value !== 'All members') {
-      const filteredMeetingsArrByParticipants = props.allMeetings.filter((meeting) => {
+      const filteredMeetingsArrByParticipants = allMeetings.filter((meeting) => {
         if (meeting.data.participants.includes(value)) {
           return meeting
         }
       })
 
-      props.filterMeetings(filteredMeetingsArrByParticipants)
+      dispatch(setFilteredMeetings(filteredMeetingsArrByParticipants))
     } else {
-      props.filterMeetings(props.allMeetings)
+      dispatch(setFilteredMeetings(allMeetings))
     }
   }
 
   return (
     <CalendarPageWrapper>
-      {props.meetings && props.users && !isUserDeletingMeeting ? (
+      {!isLoading ? (
         <>
           <Header>
             <Title>Calendar</Title>
@@ -72,17 +58,17 @@ const CalendarPage = (props) => {
               <LogoutButtonWrapper>
                 <Button
                   btnType="secondary"
-                  onClick={() => setIsLogoutModalVisible(true)}>
+                  onClick={() => dispatch(showConfirmLogoutModal())}>
                   Logout
                 </Button>
               </LogoutButtonWrapper>
               <SelectWrapper>
                 <Select
-                  optionsArr={props.users}
+                  optionsArr={usersList}
                   extraOption="All members"
                   onChange={selectUserHandler} />
               </SelectWrapper>
-              <AddNewMeetingButtonWrapper activeUser={activeUser}>
+              <AddNewMeetingButtonWrapper isLoggedIn={isLoggedIn} activeUser={activeUser}>
                 <Button
                   btnType="secondary"
                   onClick={() => history.push('/create-meeting')}>
@@ -91,28 +77,10 @@ const CalendarPage = (props) => {
               </AddNewMeetingButtonWrapper>
             </CalendarTools>
           </Header>
-          <MeetingsList.Provider value={props.meetings}>
-            <ConfirmDeleteMeetingModalVisibility.Provider
-              value={setIsDeleteMeetingModalVisible}>
-              <DeleteMeeting.Provider value={setChosenMeetingForDeleting}>
-                <CalendarTable />
-              </DeleteMeeting.Provider>
-            </ConfirmDeleteMeetingModalVisibility.Provider>
-          </MeetingsList.Provider>
-          <AuthModal
-            show={!isLoggedIn}
-            users={props.users}
-            setIsLoggedIn={setIsLoggedIn} />
-          <ConfirmLogoutModal
-            show={isLogoutModalVisible}
-            setIsLoggedIn={setIsLoggedIn}
-            setLogoutModalVisibility={setIsLogoutModalVisible} />
-          <ConfirmDeleteMeetingModal
-            show={isDeleteMeetingModalVisible}
-            getAllMeetings={props.getAllMeetings}
-            meeting={chosenMeetingForDeleting}
-            setIsDeleteMeetingModalVisible={setIsDeleteMeetingModalVisible}
-            userIsDeletingMeeting={setIsUserDeletingMeeting} />
+          <CalendarTable />
+          <AuthModal />
+          <ConfirmLogoutModal />
+          <ConfirmDeleteMeetingModal />
         </>
       ) : (
         <Loader>

@@ -50,11 +50,11 @@ class RequestsSender extends ResponseDebugger {
 
   deleteMeeting = async (meeting) => {
     const deleteData = {
-      data: JSON.stringify(meeting[0].data),
-      id: meeting[0].id
+      data: JSON.stringify(meeting.data),
+      id: meeting.id
     }
 
-    const response = await fetch(`${baseURL}/events/${meeting[0].id}`, {
+    const response = await fetch(`${baseURL}/events/${meeting.id}`, {
       method: 'DELETE',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(deleteData)

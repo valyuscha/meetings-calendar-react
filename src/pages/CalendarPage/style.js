@@ -28,5 +28,5 @@ export const SelectWrapper = styled.div`
 
 export const AddNewMeetingButtonWrapper = styled.div`
   margin-left: 15px; 
-  display: ${({activeUser}) => (activeUser && activeUser.canUserCreateMeeting ? 'block' : 'none')};
+  display: ${p => (p.isLoggedIn && p.activeUser.canUserCreateMeeting ? 'block' : 'none')};
 `

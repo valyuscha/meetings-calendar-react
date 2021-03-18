@@ -44,7 +44,7 @@ export const GoToEditMeetingPageButton = styled.button`
   width: 35px;
   height: 35px;
   cursor: pointer;
-  display: ${({activeUser}) => activeUser.canUserEditMeetingInfo ? 'block' : 'none'};
+  display: ${({activeUser}) => activeUser && activeUser.canUserEditMeetingInfo ? 'block' : 'none'};
 `
 
 export const GoToEditMeetingPageIcon = styled.img`

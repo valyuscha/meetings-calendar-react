@@ -50,6 +50,9 @@
     "no-param-reassign": "off",
     "no-shadow": "off",
     "no-lonely-if": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "no-underscore-dangle": "off",
+    "no-mixed-operators": "off",
+    "import/export": "off"
   }
 }

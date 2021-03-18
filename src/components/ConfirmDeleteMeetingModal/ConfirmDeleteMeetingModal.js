@@ -1,6 +1,7 @@
 import React from 'react'
-import {serverEventsMethods} from 'serverCommunication'
+import {useSelector, useDispatch} from 'react-redux'
 import {Modal, Button} from 'components/UI'
+import {hideConfirmDeleteMeetingModal, deleteMeeting} from '../../redux'
 
 import {
   ModalMessage,
@@ -10,26 +11,20 @@ import {
   ConfirmButtonWrapper
 } from './style'
 
-const ConfirmDeleteMeetingModal = (props) => {
-  const cancelDeleteMeeting = () => {
-    props.setIsDeleteMeetingModalVisible(false)
-  }
-
-  const confirmDeleteMeeting = () => {
-    props.userIsDeletingMeeting(true)
-    serverEventsMethods.deleteMeeting(props.meeting)
-      .then(props.getAllMeetings)
-      .then(() => props.userIsDeletingMeeting(false))
-    props.setIsDeleteMeetingModalVisible(false)
-  }
+const ConfirmDeleteMeetingModal = () => {
+  const dispatch = useDispatch()
+  const {chosenMeetingForDeleting} = useSelector(({meetings}) => meetings)
+  const {isConfirmDeleteMeetingModalVisible} = useSelector(({modals}) => modals)
 
   return (
-    <Modal show={props.show}>
+    <Modal show={isConfirmDeleteMeetingModalVisible}>
       <ModalMessage>
         Are you sure you want to delete
         <MeetingNameWrapper>
           "
-          <MeetingName>{props.meeting.length ? props.meeting[0].data.meetingName : 'Event'}</MeetingName>
+          <MeetingName>
+            {chosenMeetingForDeleting.data && chosenMeetingForDeleting.data.meetingName}
+          </MeetingName>
           "
         </MeetingNameWrapper>
       </ModalMessage>
@@ -37,14 +32,14 @@ const ConfirmDeleteMeetingModal = (props) => {
         <ConfirmButtonWrapper>
           <Button
             btnType="primary"
-            onClick={cancelDeleteMeeting}>
+            onClick={() => dispatch(hideConfirmDeleteMeetingModal())}>
             No
           </Button>
         </ConfirmButtonWrapper>
         <ConfirmButtonWrapper>
           <Button
             btnType="primary"
-            onClick={confirmDeleteMeeting}>
+            onClick={() => dispatch(deleteMeeting(chosenMeetingForDeleting))}>
             Yes
           </Button>
         </ConfirmButtonWrapper>

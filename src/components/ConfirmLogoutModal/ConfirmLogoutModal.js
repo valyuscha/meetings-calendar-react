@@ -1,21 +1,24 @@
 import React from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import {Modal, Button} from 'components/UI'
+import {logout, hideConfirmLogoutModal, setAllMeetings, setFilteredMeetings} from '../../redux'
 
 import {ConfirmLogoutMessage, ConfirmButtonsWrapper, ConfirmButtonWrapper} from './style'
 
-const ConfirmLogoutModal = ({show, setLogoutModalVisibility, setIsLoggedIn}) => {
-  const cancelLogout = () => {
-    setLogoutModalVisibility(false)
-  }
+const ConfirmLogoutModal = () => {
+  const dispatch = useDispatch()
+  const {isConfirmLogoutModalVisible} = useSelector(({modals}) => modals)
 
   const confirmLogout = () => {
     localStorage.removeItem('activeUser')
-    setIsLoggedIn(false)
-    setLogoutModalVisibility(false)
+    dispatch(logout())
+    dispatch(setAllMeetings([]))
+    dispatch(setFilteredMeetings([]))
+    dispatch(hideConfirmLogoutModal())
   }
 
   return (
-    <Modal show={show}>
+    <Modal show={isConfirmLogoutModalVisible}>
       <ConfirmLogoutMessage>
         Do you really want to logout?
       </ConfirmLogoutMessage>
@@ -23,7 +26,7 @@ const ConfirmLogoutModal = ({show, setLogoutModalVisibility, setIsLoggedIn}) => 
         <ConfirmButtonWrapper>
           <Button
             btnType="primary"
-            onClick={cancelLogout}>
+            onClick={() => dispatch(hideConfirmLogoutModal())}>
             No
           </Button>
         </ConfirmButtonWrapper>

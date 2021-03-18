@@ -30,6 +30,13 @@ const MeetingInfoPage = () => {
     }
   }, [])
 
+  const participants = editMeeting.data.participants.filter(participant => {
+    return participant !== activeUser.name
+  })
+
+  participants.push('You')
+  participants.reverse()
+
   return (
     <MeetingInfoPageWrapper>
       {editMeeting && (
@@ -63,11 +70,9 @@ const MeetingInfoPage = () => {
             <MeetingInfoItemWrapper>
               <MeetingInfoItemName>Participants:</MeetingInfoItemName>
               <ParticipantsList>
-                {Children.toArray([...editMeeting.data.participants].map(participant => {
-                  return (
-                    <Participant>{participant}</Participant>
-                  )
-                }))}
+                {Children.toArray([...participants].map(participant => (
+                  <Participant>{participant}</Participant>
+                )))}
               </ParticipantsList>
             </MeetingInfoItemWrapper>
           </MeetingInfoWrapper>

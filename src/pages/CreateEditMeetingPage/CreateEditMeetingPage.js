@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import {Ellipsis} from 'react-awesome-spinners'
 import {CreateEditMeetingErrorMessage} from 'components'
@@ -6,6 +7,7 @@ import {Input, Select, Checkboxes, Button, Loader} from 'components/UI'
 import {days, time} from 'server'
 import {getFormData} from './getFomData'
 import {confirmMeetingCreationOrChange} from './confirmMeetingCreationOrChange'
+import {getAllMeetings, hideCreateEditMeetingErrorMessage} from '../../redux'
 
 import {
   CreateEditMeetingPageWrapper,
@@ -17,20 +19,21 @@ import {
   ConfirmMeetingCreationButtonWrapper
 } from './style'
 
-const CreateEditMeetingPage = (props) => {
+const CreateEditMeetingPage = ({editForm}) => {
   const history = useHistory()
+  const dispatch = useDispatch()
+  const {usersList} = useSelector(({users}) => users)
+  const {allMeetings} = useSelector(({meetings}) => meetings)
+  const {isLoading} = useSelector(({loader}) => loader)
+  const {isCreateEditMeetingErrorMessageVisible} = useSelector(({modals}) => modals)
+
   const editMeeting = JSON.parse(localStorage.getItem('editMeeting'))
   const activeUser = JSON.parse(localStorage.getItem('activeUser'))
 
-  const [
-    isCreateEditMeetingErrorMessageVisible,
-    setIsCreateEditMeetingErrorMessageVisible
-  ] = useState(false)
-
   const [controls, setControls] = useState({
     meetingName: {
-      value: props.editForm ? editMeeting.data.meetingName : '',
-      isValid: !!props.editForm,
+      value: editForm ? editMeeting.data.meetingName : '',
+      isValid: !!editForm,
       isTouched: false,
       errorMessage: 'Enter the field',
       rules: {
@@ -41,22 +44,22 @@ const CreateEditMeetingPage = (props) => {
     selectControls: {
       daysSelect: {
         name: 'Day',
-        value: props.editForm ? editMeeting.data.selectedDay : 'Monday'
+        value: editForm ? editMeeting.data.selectedDay : 'Monday'
       },
       timeSelect: {
         name: 'Time',
-        value: props.editForm ? editMeeting.data.selectedTime : '10:00'
+        value: editForm ? editMeeting.data.selectedTime : '10:00'
       }
     },
     participants: {
-      checkedParticipants: props.editForm ? editMeeting.data.participants : [],
-      isValid: !!props.editForm,
+      checkedParticipants: editForm ? editMeeting.data.participants : [],
+      isValid: !!editForm,
       isTouched: false
     }
   })
 
   useEffect(() => {
-    props.getAllMeetings()
+    dispatch(getAllMeetings())
 
     if (!activeUser.canUserEditMeetingInfo && !activeUser.canUserCreateMeeting) {
       history.push('/')
@@ -73,26 +76,25 @@ const CreateEditMeetingPage = (props) => {
 
   const cancelMeetingCreationOrChange = () => {
     history.push('/')
+    dispatch(hideCreateEditMeetingErrorMessage())
   }
 
   const createOrEditMeeting = () => {
-    if (!props.editForm) {
+    if (!editForm) {
       confirmMeetingCreationOrChange(
         controls,
-        setIsCreateEditMeetingErrorMessageVisible,
         setControls,
-        props.getAllMeetings,
-        props.meetings,
-        history
+        allMeetings,
+        history,
+        dispatch
       )
     } else {
       confirmMeetingCreationOrChange(
         controls,
-        setIsCreateEditMeetingErrorMessageVisible,
         setControls,
-        props.getAllMeetings,
-        props.meetings,
+        allMeetings,
         history,
+        dispatch,
         editMeeting
       )
     }
@@ -101,9 +103,9 @@ const CreateEditMeetingPage = (props) => {
   return (
     <CreateEditMeetingPageWrapper
       isCreateEditMeetingErrorMessageVisible={isCreateEditMeetingErrorMessageVisible}>
-      {props.users ? (
+      {!isLoading ? (
         <>
-          <Title>{props.editForm ? 'Edit' : 'Create new'} meeting</Title>
+          <Title>{editForm ? 'Edit' : 'Create new'} meeting</Title>
           <Form>
             <Input
               type="text"
@@ -130,7 +132,7 @@ const CreateEditMeetingPage = (props) => {
             <CheckboxesWrapper>
               <CheckboxesTitle>Participants:</CheckboxesTitle>
               <Checkboxes
-                checkboxesList={props.users}
+                checkboxesList={usersList}
                 checkedItems={controls.participants.checkedParticipants}
                 errorMessage="Check at least one participant"
                 isValid={controls.participants.isValid}
@@ -150,13 +152,11 @@ const CreateEditMeetingPage = (props) => {
               <Button
                 btnType="primary"
                 onClick={createOrEditMeeting}>
-                {props.editForm ? 'Edit' : 'Create'}
+                {editForm ? 'Edit' : 'Create'}
               </Button>
             </ConfirmMeetingCreationButtonWrapper>
           </ConfirmMeetingCreationButtons>
-          <CreateEditMeetingErrorMessage
-            show={isCreateEditMeetingErrorMessageVisible}
-            setIsCreateEditMeetingErrorMessageVisible={setIsCreateEditMeetingErrorMessageVisible} />
+          <CreateEditMeetingErrorMessage />
         </>
       ) : (
         <Loader>

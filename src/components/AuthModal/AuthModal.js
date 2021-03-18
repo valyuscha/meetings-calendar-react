@@ -1,31 +1,33 @@
 import React, {useState} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import {Modal, Select, Button} from 'components/UI'
+import {login, getAllMeetings} from '../../redux'
 
 import {AuthMessage, UsersSelectWrapper, ConfirmAuthButtonWrapper} from './style'
 
-const AuthModal = ({show, users, setIsLoggedIn}) => {
+const AuthModal = () => {
+  const dispatch = useDispatch()
+  const {isLoggedIn} = useSelector(({auth}) => auth)
+  const {usersList} = useSelector(({users}) => users)
   const [selectedUser, setSelectedUser] = useState('Ann')
 
   const authHandler = () => {
-    users.filter(user => {
+    usersList.filter(user => {
       if (user.name === selectedUser) {
         localStorage.setItem('activeUser', JSON.stringify(user))
-        setIsLoggedIn(true)
+        dispatch(login())
+        dispatch(getAllMeetings())
       }
     })
   }
 
-  const selectUserHandler = (event) => {
-    setSelectedUser(event.target.value)
-  }
-
   return (
-    <Modal show={show}>
+    <Modal show={!isLoggedIn}>
       <AuthMessage>Please authorise</AuthMessage>
       <UsersSelectWrapper>
         <Select
-          optionsArr={users}
-          onChange={selectUserHandler} />
+          optionsArr={usersList}
+          onChange={event => setSelectedUser(event.target.value)} />
       </UsersSelectWrapper>
       <ConfirmAuthButtonWrapper>
         <Button

@@ -1,11 +1,8 @@
-import React, {useContext} from 'react'
+import React from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import {deleteMeeting} from 'assets'
-import {
-  MeetingsList,
-  DeleteMeeting,
-  ConfirmDeleteMeetingModalVisibility
-} from 'pages/CalendarPage/CalendarPage'
+import {chooseMeetingForDeleting, showConfirmDeleteMeetingModal} from '../../../../../redux'
 
 import {
   Cell,
@@ -18,25 +15,24 @@ import {
 
 const CalendarTableCell = ({day, time}) => {
   const history = useHistory()
-  const allMeetings = useContext(MeetingsList)
-  const confirmDeleteMeetingModalVisibility = useContext(ConfirmDeleteMeetingModalVisibility)
+  const dispatch = useDispatch()
+  const {filteredMeetings} = useSelector(({meetings}) => meetings)
 
   const activeUser = JSON.parse(localStorage.getItem('activeUser'))
 
-  const currentCellMeeting = allMeetings && allMeetings.filter(item => {
+  const currentCellMeeting = filteredMeetings && filteredMeetings.filter(item => {
     return item.data.id === [time, day].join(' ')
   })
-  const choseMeetingForDeleting = useContext(DeleteMeeting)
 
   const clickHandler = (event) => {
     if (
       event.target.tagName.toLowerCase() === 'button'
       || event.target.tagName.toLowerCase() === 'img'
     ) {
-      choseMeetingForDeleting(currentCellMeeting)
-      confirmDeleteMeetingModalVisibility(true)
+      dispatch(chooseMeetingForDeleting(...currentCellMeeting))
+      dispatch(showConfirmDeleteMeetingModal())
     } else {
-      localStorage.setItem('editMeeting', JSON.stringify(currentCellMeeting[0]))
+      localStorage.setItem('editMeeting', JSON.stringify(...currentCellMeeting))
       history.push('/meeting-info')
     }
   }
